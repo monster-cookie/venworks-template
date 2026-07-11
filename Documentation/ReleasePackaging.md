@@ -7,7 +7,7 @@ Release automation packages committed files from `Staging` and publishes the res
 Before creating a release tag, update the generated files that correspond to the source changes being released.
 
 - Papyrus changes: run the local Papyrus compile workflow and commit the updated `.pex` files under `Staging/Scripts`.
-- Spriggit YAML or plugin changes: assemble the plugin locally and commit the updated `Staging/Venworks-Core.esm`.
+- Spriggit YAML or plugin changes: assemble the plugin locally and commit the updated `Staging/BOGUS-BOGUS.esm`.
 - Archive content changes: run `Tools/createPackages.ps1` locally and commit the updated `.ba2` files in `Staging`.
 - Changelog changes: move release notes from `Unreleased` into a `## Version x.y.z` section that matches the release tag without the leading `v`.
 
@@ -17,16 +17,16 @@ Before creating a release tag, update the generated files that correspond to the
 
 The GitHub Action produces these files:
 
-- `Venworks-Core-PC-x.y.z.zip`
-- `Venworks-Core-XBox-x.y.z.zip`
-- `Venworks-Core-PS5-x.y.z.zip`
-- `Venworks-Core-CreationsSite-x.y.z.zip`
+- `BOGUS-BOGUS-PC-x.y.z.zip`
+- `BOGUS-BOGUS-XBox-x.y.z.zip`
+- `BOGUS-BOGUS-PS5-x.y.z.zip`
+- `BOGUS-BOGUS-CreationsSite-x.y.z.zip`
 
-Each package includes `Staging/Venworks-Core.esm` and the platform archives for that package:
+Each package includes `Staging/BOGUS-BOGUS.esm` and the platform archives for that package:
 
 - PC: PC BA2 archives only. These are BA2 files that do not end in `_XBox.ba2` or `_PS.ba2`.
 - XBox: XBox BA2 archives only. These are BA2 files that end in `_XBox.ba2`.
-- PS5: PC BA2 archives copied with PS archive names, such as `Venworks-Core_Main_PS.ba2`.
+- PS5: PS BA2 archives only. These are BA2 files that end in `_PS.ba2`.
 - Creations Site: PC archives, XBox archives, and generated PS5 archive copies in one zip for Bethesda Game Studios Creations upload workflows.
 
 No loose scripts, source files, ESP files, metadata files, or local tool outputs are included in published zips. GitHub Releases receives all four zips. Nexus Mods receives only the PC zip.
@@ -34,9 +34,9 @@ No loose scripts, source files, ESP files, metadata files, or local tool outputs
 ## Local Pre-Tag Checklist
 
 1. Run the local workflows needed for the changes being released.
-2. Confirm `Staging/Venworks-Core.esm` is current.
+2. Confirm `Staging/BOGUS-BOGUS.esm` is current.
 3. Confirm all required PC and XBox `.ba2` archives are present in `Staging`.
-4. Confirm `Staging/Venworks-Core.esp` is not needed by any release package.
+4. Confirm `Staging/BOGUS-BOGUS.esp` is not needed by any release package.
 5. Confirm `CHANGELOG.md` has a `## Version x.y.z` section for the tag.
 6. Commit the updated release inputs.
 7. Create and push a tag in `v<major>.<minor>.<patch>` format from current `master`.
@@ -48,4 +48,4 @@ The release workflow expects these repository secrets:
 - `NEXUSMODS_API_KEY`
 - `NEXUSMODS_FILE_ID`
 
-The Nexus upload uses `Venworks - Core` as the display name, `main` as the category, and enables archive replacement and mod manager downloads.
+The Nexus upload uses `BOGUS - BOGUS` as the display name, `main` as the category, and enables archive replacement and mod manager downloads.
