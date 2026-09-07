@@ -32,6 +32,9 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
 
+          if ($null -eq (Get-PSRepository -Name PSGallery -ErrorAction SilentlyContinue)) {
+            Register-PSRepository -Default
+          }
           Install-Module -Name PSScriptAnalyzer -RequiredVersion $env:PSSCRIPTANALYZER_VERSION -Repository PSGallery -Scope CurrentUser -Force
 
       - name: Analyze PowerShell sources

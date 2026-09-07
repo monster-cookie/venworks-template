@@ -6,7 +6,9 @@
 [Ll]ogs/
 *.log
 
-# VS Code files for those working on multiple tools
+#######################################
+## VSCode Exclusions
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -39,6 +41,9 @@ art-converted/
 
 # Codex/GitHub Actions
 artifacts/
+
+# Codex local work tree
+.work/
 
 # Backup and temp files
 *.bak
