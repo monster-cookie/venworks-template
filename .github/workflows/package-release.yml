@@ -103,6 +103,14 @@ jobs:
                       $_.BaseName -match '_XBox$'
                   })
 
+                  $psBa2Files = @($ba2Files | Where-Object {
+                      $_.BaseName -match '_PS$'
+                  })
+
+                  if ($psBa2Files.Count -eq 0) {
+                      throw "No PS BA2 archives were found in Staging."
+                  }
+
                   if ($pcBa2Files.Count -eq 0) {
                       throw "No PC BA2 archives were found in Staging."
                   }
@@ -148,7 +156,6 @@ jobs:
 
                       foreach ($file in $Files) {
                           $psArchiveName = $file.Name -replace ' - ', '_'
-                          $psArchiveName = $psArchiveName -replace '\.ba2$', '_PS.ba2'
                           Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $Destination $psArchiveName)
                       }
                   }
@@ -164,14 +171,14 @@ jobs:
                   Compress-Archive -Path (Join-Path $xboxRoot '*') -DestinationPath $xboxPackagePath -Force
 
                   $ps5Root = New-PackageRoot -Name 'ps5'
-                  Copy-PlayStationArchives -Files $pcBa2Files -Destination $ps5Root
+                  Copy-PlayStationArchives -Files $psBa2Files -Destination $ps5Root
                   $ps5PackagePath = Join-Path $releaseRoot "$env:CREATION_FILE_NAME-PS5-$env:PACKAGE_VERSION.zip"
                   Compress-Archive -Path (Join-Path $ps5Root '*') -DestinationPath $ps5PackagePath -Force
 
                   $creationsSiteRoot = New-PackageRoot -Name 'creations-site'
                   Copy-Archives -Files $pcBa2Files -Destination $creationsSiteRoot
                   Copy-Archives -Files $xboxBa2Files -Destination $creationsSiteRoot
-                  Copy-PlayStationArchives -Files $pcBa2Files -Destination $creationsSiteRoot
+                  Copy-PlayStationArchives -Files $psBa2Files -Destination $creationsSiteRoot
                   $creationsSitePackagePath = Join-Path $releaseRoot "$env:CREATION_FILE_NAME-CreationsSite-$env:PACKAGE_VERSION.zip"
                   Compress-Archive -Path (Join-Path $creationsSiteRoot '*') -DestinationPath $creationsSitePackagePath -Force
 
