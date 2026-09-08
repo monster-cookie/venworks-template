@@ -21,6 +21,24 @@
     },
     {
       "type": "shell",
+      "label": "Build Scaleform",
+      "command": "${workspaceFolder}/Tools/buildScaleform.ps1",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
       "label": "Initial Repo Setup",
       "command": "${workspaceFolder}/Tools/setupRepo.ps1",
       "options": {

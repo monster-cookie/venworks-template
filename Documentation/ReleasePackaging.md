@@ -6,7 +6,8 @@ Release automation packages committed files from `Staging` and publishes the res
 
 Before creating a release tag, update the generated files that correspond to the source changes being released.
 
-- Papyrus changes: run the local Papyrus compile workflow and commit the updated `.pex` files under `Staging/Scripts`.
+- Papyrus changes: run `Tools/compileScripts.ps1`, then run `Tools/createPackages.ps1` to package the namespace-owned scripts. Compilation writes `.pex` files under `.work/build/scripts`; do not commit `.work`. Commit the resulting configured `.ba2` release inputs under `Staging`.
+- Scaleform changes: when the selected variants declare `ScaleformBuilds`, run `Tools/buildScaleform.ps1` before `Tools/createPackages.ps1`; its outputs under `.work/build/scaleform` are package inputs and are not committed.
 - Spriggit YAML or plugin changes: assemble the plugin locally and commit the updated `Staging/BOGUS-BOGUS.esm`.
 - Archive content changes: run `Tools/createPackages.ps1` locally and commit the updated `.ba2` files in `Staging`.
 - Changelog changes: move release notes from `Unreleased` into a `## Version x.y.z` section that matches the release tag without the leading `v`.

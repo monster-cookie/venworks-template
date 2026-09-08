@@ -1,63 +1,111 @@
-# Abort on first error
-$PSNativeCommandUseErrorActionPreference = $true
-$ErrorActionPreference = "Stop"
+<#
+.SYNOPSIS
+Loads the project build environment and declares its reusable build configuration.
 
-if ([System.IO.Directory]::Exists("./Staging")) {
-  if ((Get-Item -Path "./Staging").LinkType -ne "Junction") {
-    Write-Host -ForegroundColor Red "Staging is no longer a Junction. Please delete it and rerun the setupRepo script."
-    Exit
-  }
-}
-
-If (![System.IO.File]::Exists(".env")) {
-  Write-Host -ForegroundColor Red "ERROR: .env file must be created and configured to run this."
-  Exit
-}
-
-Write-Host -ForegroundColor Green "Importing ENV Settings from .env file"
-Get-Content .env | ForEach-Object {
-  $name, $value = $_.split('=')
-  $name.trim() | Out-Null
-  if (!$name.StartsWith('#') || ![string]::IsNullOrWhitespace($name) || ![string]::IsNullOrWhitespace($value)) {
-    $value.trim() | Out-Null
-    Set-Item -Path "env:$name" -Value "$value"
-  }
-}
-
-Write-Host -ForegroundColor Yellow "`nTool Settings:"
-Write-Host -ForegroundColor Yellow "BGS Papyrus Compiler path is $ENV:TOOL_PATH_PAPYRUS_COMPILER"
-Write-Host -ForegroundColor Yellow "BGS Archive2 path is $ENV:TOOL_PATH_ARCHIVER"
-Write-Host -ForegroundColor Yellow "BGS xtexconv path is $ENV:TOOL_PATH_XTEXCONV"
-Write-Host -ForegroundColor Yellow "BGS AssetWatcher path is $ENV:TOOL_PATH_ASSET_WATCHER"
-Write-Host -ForegroundColor Yellow "BGS AssetWatcher Plugins path is $ENV:TOOL_PATH_ASSET_WATCHER_PLUGINS"
-Write-Host -ForegroundColor Yellow "`nSpriggit Settings:"
-Write-Host -ForegroundColor Yellow "Spriggit CLI path is $ENV:TOOL_PATH_SPRIGGIT"
-Write-Host -ForegroundColor Yellow "Spriggit Version is $ENV:SPRIGGIT_VERSION"
-Write-Host -ForegroundColor Yellow "`nSteam Settings:"
-Write-Host -ForegroundColor Yellow "Starfield game folder is set to $ENV:STEAM_GAME_FOLDER."
-Write-Host -ForegroundColor Yellow "Starfield data folder is set to $ENV:STEAM_DATA_FOLDER."
-Write-Host -ForegroundColor Yellow "`nPapyrus Settings:"
-Write-Host -ForegroundColor Yellow "BGS Papyrus Compiler Flags files is $ENV:PAPYRUS_COMPILER_FLAGS"
-Write-Host -ForegroundColor Yellow "BGS Papyrus Script path is $ENV:PAPYRUS_SCRIPTS_PATH"
-Write-Host -ForegroundColor Yellow "BGS Papyrus Source path is $ENV:PAPYRUS_SCRIPTS_SOURCE_PATH"
-Write-Host -ForegroundColor Yellow "`nModule Settings:"
-Write-Host -ForegroundColor Yellow "Module Database Folder is $ENV:MODULE_DATABASE_PATH"
-Write-Host -ForegroundColor Yellow "Module Scripting Folder is $ENV:MODULE_SCRIPTS_PATH"
-Write-Host -ForegroundColor Yellow "Module Scripting Source Folder is $ENV:MODULE_SCRIPTS_SOURCE_PATH"
-
-$Global:Databases = @(
-  ("BOGUS-BOGUS.esm")
+.PARAMETER EnvironmentPath
+Environment file selected by the first successful configuration initialization in the current PowerShell session. Start a fresh process to initialize from a different file.
+#>
+[CmdletBinding()]
+param(
+  [string]$EnvironmentPath = (Join-Path $PSScriptRoot '..\.env')
 )
 
-$Global:ScriptingNamespaceModuleCompany = "BOGUS"
-$Global:ScriptingNamespaceModuleName = "BOGUS"
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+. (Join-Path $PSScriptRoot 'sharedVariants.ps1')
+. (Join-Path $PSScriptRoot 'sharedBuild.ps1')
 
-Write-Host -ForegroundColor Yellow "Papyrus Scripting namespace for module is $Global:ScriptingNamespaceModuleCompany`:$Global:ScriptingNamespaceModuleName"
+Import-BuildEnvironment -Path $EnvironmentPath
 
-Write-Host -ForegroundColor Yellow "`nGame Database Files:"
-foreach ($database in $Global:Databases) {
-  Write-Host -ForegroundColor Yellow $database
+$repositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+$Global:BuildSettings = @{
+  WorkRoot = Join-Path $repositoryRoot '.work/build'
+  PapyrusSourceRoot = Join-Path $repositoryRoot 'Papyrus'
+  ScriptsDirectory = Join-Path $repositoryRoot '.work/build/scripts'
+  ScaleformSourceRoot = Join-Path $repositoryRoot 'Scaleform'
+  ScaleformDirectory = Join-Path $repositoryRoot '.work/build/scaleform'
 }
-Write-Host -ForegroundColor Yellow "`n"
 
-$Global:SharedConfigurationLoaded=$true
+$Global:ModuleVariants = @(
+  [ModuleVariant]::new(
+    'DEFAULT',
+    'BOGUS Module',
+    'BOGUS-BOGUS.esm',
+    'BOGUS-BOGUS',
+    'BOGUS:BOGUS',
+    (Join-Path $repositoryRoot 'Staging'),
+    'MODULE_DATABASE_PATH',
+    @(),
+    @(
+      @{
+        FileName = 'BOGUS-BOGUS - Main.ba2'
+        Format = 'General'
+        Compression = 'Default'
+        MaxSizeMB = 2048
+        IncludePapyrus = $true
+        ExcludeFilters = '.*\\meta\.ini|.*\\.*\.dds|.*\\.*\.btc|.*\\.*\.esp|.*\\.*\.esm|.*\\.*\.ba2'
+        Assets = @(
+          @{ Root = 'Staging'; Source = '.'; Target = '' }
+        )
+      }
+      @{
+        FileName = 'BOGUS-BOGUS - Textures.ba2'
+        Format = 'DDS'
+        Compression = 'Default'
+        MaxSizeMB = 2048
+        IncludePapyrus = $false
+        IncludeFilters = '.*\\.*\.dds'
+        Assets = @(
+          @{ Root = 'Staging'; Source = '.'; Target = '' }
+        )
+      }
+      @{
+        FileName = 'BOGUS-BOGUS - Main_XBox.ba2'
+        Format = 'General'
+        Compression = 'XBox'
+        MaxSizeMB = 2048
+        IncludePapyrus = $true
+        ExcludeFilters = '.*\\meta\.ini|.*\\.*\.dds|.*\\.*\.btc|.*\\.*\.esp|.*\\.*\.esm|.*\\.*\.ba2'
+        Assets = @(
+          @{ Root = 'Staging'; Source = '.'; Target = '' }
+        )
+      }
+      @{
+        FileName = 'BOGUS-BOGUS - Textures_XBox.ba2'
+        Format = 'XBoxDDS'
+        Compression = 'XBox'
+        MaxSizeMB = 2048
+        IncludePapyrus = $false
+        IncludeFilters = '.*\\.*\.dds'
+        Assets = @(
+          @{ Root = 'Staging'; Source = '.'; Target = '' }
+        )
+      }
+      # Preserve the template's existing nominal PS names; these do not establish PS format support.
+      @{
+        FileName = 'BOGUS-BOGUS - Main_PS.ba2'
+        Format = 'General'
+        Compression = 'Default'
+        MaxSizeMB = 2048
+        IncludePapyrus = $true
+        ExcludeFilters = '.*\\meta\.ini|.*\\.*\.dds|.*\\.*\.btc|.*\\.*\.esp|.*\\.*\.esm|.*\\.*\.ba2'
+        Assets = @(
+          @{ Root = 'Staging'; Source = '.'; Target = '' }
+        )
+      }
+      @{
+        FileName = 'BOGUS-BOGUS - Textures_PS.ba2'
+        Format = 'DDS'
+        Compression = 'Default'
+        MaxSizeMB = 2048
+        IncludePapyrus = $false
+        IncludeFilters = '.*\\.*\.dds'
+        Assets = @(
+          @{ Root = 'Staging'; Source = '.'; Target = '' }
+        )
+      }
+    )
+  )
+)
+
+$Global:SharedConfigurationLoaded = $true
