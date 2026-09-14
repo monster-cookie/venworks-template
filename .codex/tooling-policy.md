@@ -79,6 +79,32 @@ For Codex-initiated `gh` calls, prefer a service-account token injected only int
 
 Supply the MCP credential only to Codex's configured GitHub connection. A username/password in the Proton Pass item can support separately authorized service-account sign-in, but it is not the API bearer token. If browser authentication is needed for setup, use a separate service-account browser profile or private session so the user's regular browser stays signed in personally. Reverify the service account through the actual MCP and CLI contexts independently.
 
+## Git commit identity and GitHub authentication
+
+Git commit authorship and GitHub authentication are separate identity layers. This section does not authorize Git or GitHub mutations. When applicable repository instructions and the current task separately authorize Codex to create a commit, every commit created by Codex must use the dedicated `monstercookieai` identity as both its Git author and committer, with name `MonsterCookieAI` and email `venworksai@venworkscreations.com`.
+
+Apply this identity only to the individual commit command:
+
+```powershell
+git -c user.name="MonsterCookieAI" -c user.email="venworksai@venworkscreations.com" commit ...
+```
+
+Do not change Git identity persistently with `git config --global`, `git config --system`, `git config --local`, worktree configuration, or direct configuration-file edits. Preserve the human user's normal Git identity for their own commits.
+
+The dedicated Codex GitHub App remains the required identity for GitHub authentication, pushes, pull-request operations, and GitHub API or MCP operations. Do not replace the GitHub App with `monstercookieai` credentials merely to obtain commit attribution, and never silently fall back to the human user's personal GitHub credentials.
+
+Before pushing a Codex-created commit, verify the committed author and committer identities with:
+
+```powershell
+git show --no-patch --format=fuller HEAD
+```
+
+Both identities must be `MonsterCookieAI <venworksai@venworkscreations.com>`. If either identity is incorrect, stop and report the mismatch. Do not amend, reset, rebase, or otherwise rewrite the commit unless that operation is separately and explicitly approved. Do not rewrite existing commit history merely to change cosmetic attribution.
+
+Never expose or commit GitHub App private keys, installation tokens, access tokens, or other credentials. The required Git identity email and any dedicated GitHub noreply email are identity metadata, not authentication secrets.
+
+All existing repository-specific Git safety, protected-branch, staging, commit, push, and pull-request rules remain in force.
+
 ## Git transport and credential boundaries
 
 GitHub identity verification establishes only the MCP session or GitHub CLI context that was checked. It does not establish the identity used by another tool, a Git CLI transport, GitKraken, an SSH key, or an HTTPS credential helper. For a fetch, push, or other authenticated Git operation authorized by the user, verify the actual transport's account and destination. Use the same Codex AI account without changing the user's personal application authentication. No additional transport-policy document or execution-review record is required.
