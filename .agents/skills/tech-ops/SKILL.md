@@ -56,6 +56,4 @@ When preparing or creating a PR, follow [diagram and pull-request guidance](../.
 
 ## Progress and recovery
 
-For delegated work or a long-running operation, read [task progress, interruption, and recovery](../../references/task-lifecycle.md); loading it does not require further delegation. At useful milestones, report completed work, the current operation, remaining scope, actual verification, and blockers. Preserve checkpoints only within authorized paths or return them in a message when read-only.
-
 Before retrying an interrupted provider operation, inspect partial artifacts, lock ownership, job status, state, and destination resources. Honor explicit user stops and budgets, and hand back incomplete coverage and recovery state honestly; never claim an unverified apply, migration, import, or destroy succeeded.

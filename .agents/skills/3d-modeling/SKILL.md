@@ -38,6 +38,4 @@ Before selecting project tools or using an authenticated service, follow [toolin
 
 ## Progress and recovery
 
-For delegated work or a long-running operation, read [task progress, interruption, and recovery](../../references/task-lifecycle.md); loading it does not require further delegation. At useful milestones, report completed work, the current operation, remaining scope, actual verification, and blockers. Preserve editable scene checkpoints only within authorized paths or return them in a message when read-only.
-
 A coordinator wait timeout is not the operation's execution deadline. Continue healthy work; honor explicit user stops and budgets. Before retrying an interrupted bake, export, or render, inspect partial outputs and any external job state. Hand back incomplete coverage and recovery state honestly; never claim a cancelled or unverified 3D operation succeeded.
