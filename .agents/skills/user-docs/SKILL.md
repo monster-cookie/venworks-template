@@ -3,50 +3,12 @@ name: user-docs
 description: Write clear end-user documentation for installation, usage, feature behavior, help content, changelogs, release notes, and compatibility guidance.
 ---
 
-# User Documentation
+# User documentation
 
-Use this skill for readers who need to install, use, update, troubleshoot, or understand a product, service, tool, or feature without knowing the codebase. Describe the observable behavior and the action the reader needs to take.
+Help the reader install, use, update, or troubleshoot the product. Identify the audience, target version, and task, then verify user-visible behavior against source, release evidence, or the actual product. Do not infer a supported feature from an internal symbol alone.
 
-## Tooling and credential policies
+Lead with what changed or what the reader needs to do. Give relevant prerequisites, clear actions, and observable results. Explain technical terms only when needed to complete the task. Preserve the existing voice and structure when editing, and keep implementation details out of user flows unless they help a decision.
 
-Before selecting project tools or using an authenticated service, follow [tooling and credential policies](../../references/tooling-and-credentials.md). Resolve optional configured shared and repository-root policies for this role, target, and operation; verify the required identity through the actual consuming tool. Missing policies retain existing workflow behavior. Existing but invalid or conflicting policies block affected operations, not unrelated work. Tool access and credentials do not independently authorize mutations. Direct invocation follows the same discovery rules as delegated work.
+Describe symptoms and supported recovery steps. Label limitations and workarounds accurately, especially compatibility or saved-data effects. Use exact command, menu, and filename spelling without introducing unnecessary internal jargon.
 
-## Establish the user task
-
-- Identify the audience, platform, version, task, prerequisite, and expected result. Read repository instructions and inspect the implementation, release data, existing help, and supported configuration before writing.
-- Verify user-visible names, paths, commands, defaults, compatibility, limitations, and error behavior against current evidence. Do not infer a feature from an internal symbol alone.
-- Preserve the project's established voice, terminology for UI and commands, document structure, and format conventions.
-
-## Write the guidance
-
-- Start with what changed or what the reader is trying to accomplish. Give actionable prerequisites, steps, expected results, and recovery paths in the order the user encounters them.
-- Translate internal engineering language into observable outcomes. Explain a technical term only when the reader needs it to complete the task or understand a limitation.
-- State important compatibility, platform, version, save-data, or feature limitations plainly. Do not promise behavior that is only a proposal, workaround, or unverified inference.
-- Keep examples complete enough to use and check their paths, commands, links, and syntax. Preserve existing correct wording when only a format or small factual edit is requested.
-- Edit only the requested documentation scope and use the repository-local `.work` directory for temporary documentation artifacts when practical. Do not create multiline files with giant shell commands.
-
-## Troubleshooting
-
-- Describe the symptom the reader sees, the most likely supported cause, and the smallest recovery action.
-- Include a safe way to confirm the result, such as a visible status, version, file, log message, or repeatable command.
-- Separate required steps from optional workarounds and label workarounds that have compatibility or persistence limits.
-- Avoid asking the reader to inspect internal implementation details unless support genuinely requires it.
-- Do not hide an unresolved limitation behind optimistic wording; state what the feature does not do and what the reader can do next.
-
-## Verify and hand off
-
-- Recheck every instruction against the actual current behavior and test the example or command when a safe, relevant check is available.
-- Run proportionate documentation or format checks and inspect the final diff for internal jargon, broken links, unsupported claims, and accidental implementation detail.
-- Return the changed document paths, validation performed, and any remaining user-facing uncertainty or compatibility gap.
-- Include the [testing handoff](../../references/testing-handoff.md) with user-facing setup or action steps, observable expected results, recovery or cleanup, and platform checks that were or were not run. For repository-owned documentation changes, follow the [Git delivery procedure](../../references/git-delivery.md) after integration and required review/testing; the coordinator owns delivery after integration, while a directly invoked documentation specialist without a coordinator owns delivery for its task. Delegated documentation specialists return scoped docs and evidence and do not independently commit, push, or open a PR unless assigned. Create only ready-for-review, non-draft PRs and honor local-only, report-only, unavailable-remote, and unresolved-check limits. A ready PR is not a merge, deployment, release, approval, or tracker completion.
-
-## Format discipline
-
-- Preserve the target document's heading, list, code, link, and line-break conventions.
-- Keep commands, paths, menu labels, and filenames exact and visually distinct from explanatory prose.
-- Use one clear action per step and put the expected result where it helps the reader recover from failure.
-- Prefer a short example over an abstract explanation when the reader must copy or recognize a value.
-
-## Progress and recovery
-
-A coordinator wait timeout is not your task's execution deadline. Continue healthy work; do not force an early final answer merely to satisfy a wait. Honor explicit user stops and budgets. Before retrying an interrupted operation, inspect partial artifacts and any external outcome. Hand back incomplete coverage and recovery state honestly; never claim a cancelled or unverified step succeeded.
+Check examples and links proportionately, using the actual product when available. Distinguish inspected guidance from steps executed in the target environment. Return usable documentation and material gaps; avoid adding process reports or test suites just to validate prose. External publication remains a separately authorized action.

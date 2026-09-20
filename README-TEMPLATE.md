@@ -13,6 +13,14 @@ Template for creating Starfield Creations using my workflow documented at [Workf
 
 Venworks Template is a reusable starting point for Starfield Creation repositories. It contains the shared Papyrus, Scaleform, Spriggit, staging, and BA2 pipeline entry points; a new Creation repository supplies its own configuration, source, manifests, and package choices.
 
+## Optional coding-agent setup
+
+If you use a coding agent, keep `AGENTS.md`, `AGENT-REPO-CONTEXT.md`, and the `.agents` folder when creating your mod repository. Replace the `BOGUS_*` entries in `AGENT-REPO-CONTEXT.md` with your mod name, repository URL, target BGS game, and any issue-tracker scopes you use. These are intentional template placeholders. The supplied build and packaging pipeline currently targets Starfield; another BGS game requires the appropriate tools and configuration.
+
+Configure repository tools, integrations, and non-secret identity settings in [AGENT-REPO-CONTEXT.md](AGENT-REPO-CONTEXT.md). Replace the supplied commit attribution with your chosen automation name and email. Keep credentials in your local managed connection or credential manager, never in this file.
+
+An issue tracker is optional. For example, a repository using Linear can name Linear as the provider, record its workspace/team and project scope where applicable, and configure its integration in the context file's issue-tracker section. If you do not use a tracker, set the provider and tracker tool to `none` and the remaining configurable tracker fields to `not applicable`. Configure GitHub access only if the agent will use it; leaving unused service placeholders does not prevent local mod development.
+
 ## Pipeline contract
 
 `Tools/sharedVariants.ps1` provides the reusable `ModuleVariant` model and selection helpers. `Tools/sharedConfig.ps1` is the template-owned configuration entrypoint that loads `.env` under the guarded session contract and publishes the template build values and variant definitions.
