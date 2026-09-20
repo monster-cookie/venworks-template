@@ -3,57 +3,12 @@ name: adversarial-review
 description: Challenge major new features or newly introduced frameworks/libraries, or perform an explicitly requested adversarial review. Not a default review for documentation, routine fixes, or minor changes.
 ---
 
-# Adversarial Review
+# Adversarial review
 
-Use this skill only for major new features, introduction of a new framework or library, or an explicit user request. Skip documentation-only changes, routine fixes, and minor changes unless explicitly requested; size, statefulness, or perceived risk alone does not qualify. If delegated outside this scope, report that adversarial review is unnecessary rather than performing it. For qualifying work, this review complements normal review by searching for hidden failure sequences.
+Use this review for major new features, newly introduced frameworks or libraries, or an explicit request. Routine fixes and documentation changes do not need this stage solely because they are large or stateful. Follow-up review should address relevant corrections rather than restarting after unrelated edits.
 
-Follow-up review should address corrections affecting the qualifying feature or integration. Later documentation/changelog edits or unrelated routine changes do not restart this stage.
+Identify the invariants the real implementation must preserve, then try to find a reachable sequence that violates them. Focus on assumptions about initialization, duplicate callbacks, cancellation, retries, partial effects, cleanup, recovery, version skew, or interleaving where those conditions apply. Choose scenarios from the code; do not mechanically enumerate every imaginable edge case.
 
-## Tooling and credential policies
+Challenge both implementation and evidence. A separately implemented simulation does not prove that production handles its scenarios. Use a focused executable or inspectable example when it helps establish a real failure, and label environment assumptions honestly.
 
-Before selecting project tools or using an authenticated service, follow [tooling and credential policies](../../references/tooling-and-credentials.md). Resolve optional configured shared and repository-root policies for this role, target, and operation; verify the required identity through the actual consuming tool. Missing policies retain existing workflow behavior. Existing but invalid or conflicting policies block affected operations, not unrelated work. Tool access and credentials do not independently authorize mutations. Direct invocation follows the same discovery rules as delegated work.
-
-## Define what should hold
-
-- Read the request, applicable repository instructions, changed code, adjacent consumers, and existing tests.
-- State the important invariants, preconditions, postconditions, ownership rules, and state transitions implied by the implementation.
-- Identify assumptions about timing, ordering, retries, persistence, cleanup, input shape, platform behavior, and backward compatibility.
-- Separate evidence from hypotheses. A plausible concern becomes a finding only when the code or a focused probe supports a concrete failure path.
-
-## Try to break it
-
-- Walk sequences that include first use, repeated use, cancellation, retry, partial completion, restart, stale state, failure during cleanup, and recovery after interruption where relevant.
-- Challenge empty, missing, malformed, duplicate, boundary, oversized, reordered, delayed, and unexpected inputs. Check off-by-one conditions and transitions at limits.
-- Examine concurrency and reentrancy: races, lock or ownership gaps, duplicate callbacks, interleaved updates, and assumptions that an operation is serialized.
-- Compare old and new behavior for compatibility, migration, version skew, and callers that were not updated with the change.
-- Check whether tests exercise the invariant and failure mode or merely reproduce the implementation's current shape.
-- Keep security findings in scope only when the failure crosses a genuine trust boundary; route a security-specific concern to security review when needed.
-
-## Scenario matrix
-
-- Check the first invocation, the second invocation, and repeated invocation after a successful result.
-- Check interruption before, during, and after each externally visible side effect.
-- Check retries after timeout, partial completion, stale state, and a changed dependency or version.
-- Check empty, duplicate, reordered, truncated, maximum, and one-past-maximum inputs.
-- Check concurrent callers, duplicate callbacks, reentrancy, and cleanup racing with use when applicable.
-- Check rollback, restart, recovery, and migration from the previous representation.
-- Prefer a short executable or inspectable scenario when a sequence is too subtle to establish from reading alone.
-
-## Report and hand off
-
-- For each credible finding, provide severity, affected file/symbol/component, triggering sequence, expected versus actual behavior, evidence, impact, and correction direction.
-- Rank findings by practical consequence and confidence. Label a useful unanswered question as uncertainty rather than overstating it as a defect.
-- Do not edit production files. Use the repository-local `.work` directory for temporary scenarios or probes when practical.
-- If the implementation survives the challenge, say what failure classes were covered and state the remaining validation limits.
-- Challenge any [testing handoff](../../references/testing-handoff.md) against the changed snapshot and qualifying failure sequences; report missing, stale, or incomplete instructions as review coverage gaps without editing source or running unauthorized checks.
-
-## Confidence
-
-- Label a result as confirmed when code, tests, or a focused probe demonstrates the failure.
-- Label it as likely when the path follows directly from code but depends on an unverified environment condition.
-- Label it as open when the available evidence cannot establish reachability or expected behavior.
-- Keep the parent orchestrator's handoff actionable: explain the smallest correction direction and the check that would prove it fixed.
-
-## Progress and recovery
-
-A coordinator wait timeout is not your task's execution deadline. Continue healthy work; do not force an early final answer merely to satisfy a wait. Honor explicit user stops and budgets. Before retrying an interrupted operation, inspect partial artifacts and any external outcome. Hand back incomplete coverage and recovery state honestly; never claim a cancelled or unverified step succeeded.
+Keep the review read-only. Report each supported finding with the triggering sequence, expected and actual behavior, impact, exact location, evidence, and correction direction. Distinguish confirmed failures from unresolved hypotheses. If no defect is supported, state what was examined and the remaining limits. A security-specific review or product scan requires its own user request.
