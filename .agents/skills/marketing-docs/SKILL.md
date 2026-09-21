@@ -12,3 +12,5 @@ Match the destination's supported format, requested voice, and length. For Nexus
 Keep internal tracking, architecture, build machinery, and review artifacts out of public copy unless they help the audience make a meaningful decision. Prefer concrete feature descriptions and limitations to unsupported superlatives.
 
 Check changed claims, links, assets, and markup. Inspect the destination preview when available and relevant; balanced markup does not prove rendering. Return finished copy with only the assumptions or limitations that affect publication. Preparing repository content does not authorize publishing it, sending messages, or changing external records.
+
+When persisting or publishing content, follow the repository's [documentation destinations and edit restrictions](../../../AGENT-REPO-CONTEXT.md#documentation-destinations). Producing content does not authorize external writes or publication.

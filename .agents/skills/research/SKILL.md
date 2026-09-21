@@ -12,3 +12,5 @@ Use primary sources for external facts: official documentation, specifications, 
 Return the answer with concise supporting paths, symbols, or source links. Distinguish verified facts, inferences, and unresolved runtime questions. Missing local binaries or services are evidence limits; do not turn a likely behavior into a confirmed result.
 
 Stop when the evidence is sufficient for the decision. Keep the work read-only unless a documentation update is authorized, and avoid accumulating unrelated background or producing a separate report file when the answer is enough.
+
+When persisting or publishing content, follow the repository's [documentation destinations and edit restrictions](../../../AGENT-REPO-CONTEXT.md#documentation-destinations). Producing content does not authorize external writes or publication.

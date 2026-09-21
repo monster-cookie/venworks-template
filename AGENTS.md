@@ -25,6 +25,14 @@ Use `.work` for disposable project artifacts when practical. Keep secrets and au
 
 Before retrying an interrupted edit or external action, inspect the resulting state. An uncertain outcome is not evidence that nothing happened.
 
+## Documentation placement
+
+Choose documentation placement by audience and purpose using the [documentation destinations](AGENT-REPO-CONTEXT.md#documentation-destinations). Documentation that helps users or public integrators install, configure, use, extend, or troubleshoot supported behavior belongs in the configured public location. Internal research, architecture investigations, design rationale, implementation plans, and internal validation evidence belong in the configured internal project location. Put temporary execution instructions and handoffs on the relevant work item or configured alternative. Repository agent instructions and their non-secret settings remain local.
+
+Do not duplicate internal documents into public repository content or publish internal material without explicit authorization for that material. Public delivery summaries may describe the approved change and relevant validation without reproducing internal research. Preparing content does not authorize external writes or publication. Respect any configured additional edit restrictions without requesting approval again for an already-authorized change.
+
+Verify the intended external destination and its scope before writing, and read back authorized changes. Document accessibility or team visibility does not by itself establish privacy or web-publication status; verify a privacy property when the action depends on it. If a required destination is unavailable or unconfigured, continue independent work and report the affected documentation step; do not invent a destination or create an unauthorized tracked substitute.
+
 ## External tools and identities
 
 Use the service configuration in [repository context](AGENT-REPO-CONTEXT.md). Verify the intended target and expected identity through the actual consuming connection before authenticated operations; do not infer the expected account solely from the active session. Reuse a correct session and reverify after authentication or target changes or ambiguous failures. Ordinary local inspection does not require credential discovery, and unavailable access blocks only dependent work.

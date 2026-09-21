@@ -12,3 +12,5 @@ First determine whether an existing boundary can support the change. Compare alt
 Consider ordering, duplicate or partial operations, version skew, and recovery where they affect the proposed contract. Identify changes that must ship together and any dependency, schema, or public API decision that needs approval. Use a diagram when it makes the explanation clearer, not as a required deliverable.
 
 Keep analysis read-only unless a documentation edit is authorized. Return a decision and its rationale, affected responsibilities, material implementation constraints, and remaining questions. Include migration or rollout guidance only when applicable. The result should help implementation proceed without prescribing every coding step or forcing an architecture document for a small change.
+
+When persisting or publishing content, follow the repository's [documentation destinations and edit restrictions](../../../AGENT-REPO-CONTEXT.md#documentation-destinations). Producing content does not authorize external writes or publication.
