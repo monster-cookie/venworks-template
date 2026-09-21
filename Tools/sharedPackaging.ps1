@@ -101,7 +101,7 @@ function Resolve-BuildPackageAssetSource {
   }
   $item = Get-Item -LiteralPath $resolvedRoot -Force -ErrorAction SilentlyContinue
   if ($null -eq $item) { throw "$($Variant.VariantKey) package asset does not exist: $sourcePath" }
-  if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -and $rootName -cne 'Staging') {
+  if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -and $effectiveRootName -cne 'Staging') {
     throw "Package asset root is a reparse point outside the configured Staging root: $($item.FullName)"
   }
   if ($relativeSource -cne '.') {
@@ -115,7 +115,7 @@ function Resolve-BuildPackageAssetSource {
       }
     }
   }
-  return [pscustomobject]@{ Root = $rootName; Item = $item }
+  return [pscustomobject]@{ Root = $effectiveRootName; Item = $item }
 }
 
 function Get-BuildPackageDirectoryFiles {
