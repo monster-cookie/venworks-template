@@ -71,6 +71,20 @@ Use the provider's actual workflow and the user's requested actions. No fixed st
 
 When requested, select issues using the project's actual statuses, labels, milestones, and the requested criteria; clarify ambiguous selection only when it matters. Preserve scope, dependencies, and meaningful grouping without counting a parent and its children as separate promises for the same outcome. Present a current snapshot, not invented release dates or commitments. Refresh when relevant changes are expected and identify incomplete retrieval. Preparing content does not authorize publication.
 
+## Documentation destinations
+
+Configure destinations by audience and purpose, following the shared [documentation placement rules](AGENTS.md#documentation-placement). Use repository-relative paths or canonical external locations and scope; keep private selectors and credentials outside the repository. An external tracker is optional, and an explicitly selected repository location may hold internal documentation only when its visibility is appropriate for that material.
+
+| Setting | Value |
+| --- | --- |
+| Public/user documentation | `BOGUS_PUBLIC_DOCS_DESTINATION_REPLACE_ME` |
+| Public developer/integration documentation | `BOGUS_INTEGRATION_DOCS_DESTINATION_REPLACE_ME` or the public/user location |
+| Internal project documentation | `BOGUS_INTERNAL_DOCS_DESTINATION_REPLACE_ME` |
+| Temporary plans, execution notes, and handoffs | Relevant work item when available, otherwise `BOGUS_HANDOFF_DESTINATION_REPLACE_ME` |
+| Additional edit restrictions | None by default; list specific files or content and their approval requirements when applicable |
+
+Configure only destinations relevant to the repository. Mark an unused category as `not applicable`; if a later task needs it, establish its destination before persisting content. Do not treat a placeholder as an available destination.
+
 ## Credential setup
 
 Use each service's connection / credential source entry above to identify its managed connection or selected credential manager. These are non-secret configuration descriptions, not executable login commands or credential values. Keep private credential selectors and authentication state in protected local configuration and follow the shared [identity boundaries](AGENTS.md#external-tools-and-identities). Credential-manager setup is needed only when an authorized operation cannot use an existing verified connection.

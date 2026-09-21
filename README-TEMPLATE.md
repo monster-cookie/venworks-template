@@ -21,6 +21,8 @@ Configure repository tools, integrations, and non-secret identity settings in [A
 
 An issue tracker is optional. For example, a repository using Linear can name Linear as the provider, record its workspace/team and project scope where applicable, and configure its integration in the context file's issue-tracker section. If you do not use a tracker, set the provider and tracker tool to `none` and the remaining configurable tracker fields to `not applicable`. Configure GitHub access only if the agent will use it; leaving unused service placeholders does not prevent local mod development.
 
+Configure the [documentation destinations](AGENT-REPO-CONTEXT.md#documentation-destinations) for public guidance, internal project material, and temporary handoffs. List any additional file-specific edit restrictions; unused categories can be marked as `not applicable`. Choose locations whose visibility suits the material.
+
 ## Pipeline contract
 
 `Tools/sharedVariants.ps1` provides the reusable `ModuleVariant` model and selection helpers. `Tools/sharedConfig.ps1` is the template-owned configuration entrypoint that loads `.env` under the guarded session contract and publishes the template build values and variant definitions.

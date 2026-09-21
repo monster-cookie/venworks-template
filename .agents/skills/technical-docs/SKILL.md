@@ -12,3 +12,5 @@ Explain the reader's workflow and the contracts needed to carry it out. Keep pre
 Use representative examples with real commands and supported options. Include a diagram when it clarifies an important relationship. Link to source or adjacent guidance instead of repeating whole policies or dumping every implementation detail into the document.
 
 Check changed claims, links, and examples with relevant available tools or source inspection. State material execution gaps without inventing example tests or a separate verification guide for every edit. Keep application changes outside the documentation scope unless authorized. Return the changed documents, relevant verification, and remaining factual gaps.
+
+When persisting or publishing content, follow the repository's [documentation destinations and edit restrictions](../../../AGENT-REPO-CONTEXT.md#documentation-destinations). Producing content does not authorize external writes or publication.

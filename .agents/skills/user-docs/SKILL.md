@@ -12,3 +12,5 @@ Lead with what changed or what the reader needs to do. Give relevant prerequisit
 Describe symptoms and supported recovery steps. Label limitations and workarounds accurately, especially compatibility or saved-data effects. Use exact command, menu, and filename spelling without introducing unnecessary internal jargon.
 
 Check examples and links proportionately, using the actual product when available. Distinguish inspected guidance from steps executed in the target environment. Return usable documentation and material gaps; avoid adding process reports or test suites just to validate prose. External publication remains a separately authorized action.
+
+When persisting or publishing content, follow the repository's [documentation destinations and edit restrictions](../../../AGENT-REPO-CONTEXT.md#documentation-destinations). Producing content does not authorize external writes or publication.
